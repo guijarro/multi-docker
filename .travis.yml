@@ -6,7 +6,7 @@ before_install:
 script:
  - docker run guijarro/react-test npm test -- --coverage
 
-after_success
+after_success:
  - docker built -t guijarro/multi-client ./client
  - docker built -t guijarro/multi-nginx ./nginx
  - docker built -t guijarro/multi-server ./server 
