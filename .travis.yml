@@ -20,5 +20,3 @@ after_success
  - docker push guijarro/multi-nginx
  - docker push guijarro/multi-server
  - docker push guijarro/multi-worker
-
-language: generic
