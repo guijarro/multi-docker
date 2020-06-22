@@ -13,9 +13,7 @@ after_success
  - docker built -t guijarro/multi-nginx ./nginx
  - docker built -t guijarro/multi-server ./server 
  - docker built -t guijarro/multi-worker ./worker
-# Log in to the docker CLI
  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-# Take images and push them to docker hub
  - docker push guijarro/multi-client
  - docker push guijarro/multi-nginx
  - docker push guijarro/multi-server
