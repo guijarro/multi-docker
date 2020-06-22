@@ -4,7 +4,7 @@ services:
 before_install:
  - docker build -t guijarro/react-test -f ./client/Dockerfile.dev ./client
 script:
- - docker run -e CI=true guijarro/react-test npm test -- --coverage
+ - docker run guijarro/react-test npm test -- --coverage
 
 after_success
  - docker built -t guijarro/multi-client ./client
