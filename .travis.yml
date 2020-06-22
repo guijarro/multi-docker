@@ -10,17 +10,17 @@ scripts:
     - docker run -e CI=true guijarro/react-test npm test
 
 after_success:
-    - docker build -t guijarro/multi-client ./client
-    - docker build -t guijarro/multi-nginx ./nginx
-    - docker build -t guijarro/multi-server ./server
-    - docker build -t guijarro/multi-worker ./worker
+    - docker build -t mguijarro/multi-client ./client
+    - docker build -t mguijarro/multi-nginx ./nginx
+    - docker build -t mguijarro/multi-server ./server
+    - docker build -t mguijarro/multi-worker ./worker
     # Log in to the docker CLI
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
     # Take those images and push them to docker hub
-    - docker push guijarro/multi-client
-    - docker push guijarro/multi-nginx
-    - docker push guijarro/multi-server
-    - docker push guijarro/multi-worker
+    - docker push mguijarro/multi-client
+    - docker push mguijarro/multi-nginx
+    - docker push mguijarro/multi-server
+    - docker push mguijarro/multi-worker
 
 #deploy:
 #
