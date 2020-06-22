@@ -1,18 +1,35 @@
 sudo: required
 services:
- - docker 
+    - docker
+
 before_install:
- - docker build -t guijarro/react-test -f ./client/Dockerfile.dev ./client
-script:
- - docker run guijarro/react-test npm test -- --coverage
+    - docker build -t guijarro/react-test -f ./client/Dockerfile.dev ./client
+
+scripts:
+    - docker run -e CI=true guijarro/react-test npm test
 
 after_success:
- - docker built -t guijarro/multi-client ./client
- - docker built -t guijarro/multi-nginx ./nginx
- - docker built -t guijarro/multi-server ./server 
- - docker built -t guijarro/multi-worker ./worker
- - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
- - docker push guijarro/multi-client
- - docker push guijarro/multi-nginx
- - docker push guijarro/multi-server
- - docker push guijarro/multi-worker
+    - docker build -t guijarro/multi-client ./client
+    - docker build -t guijarro/multi-nginx ./nginx
+    - docker build -t guijarro/multi-server ./server
+    - docker build -t guijarro/multi-worker ./worker
+    # Log in to the docker CLI
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+    # Take those images and push them to docker hub
+    - docker push guijarro/multi-client
+    - docker push guijarro/multi-nginx
+    - docker push guijarro/multi-server
+    - docker push guijarro/multi-worker
+
+deploy:
+    edge: true
+    provider: elasticbeanstalk
+    region: us-east-2
+    app: multi-docker
+    env: MultiDocker-env
+    bucket_name: elasticbeanstalk-us-east-2-999648194641
+    bucket_path: docker-multi
+    on:
+        branch: master
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
